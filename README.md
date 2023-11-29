@@ -31,8 +31,8 @@ Mix.ensure_application!(:observer)
 Process.exit(pid, :kill)
 ```
 
-Intruction how to run ExampleDynamicSupervisor
-```
+Intruction how to run ExampleDynamicSupervisor (Bottleneck)
+``` elixir
 alias Sup.ExampleDynamicSupervisor
 list = ["john", "alex", "peter"]
 for name <- list do
@@ -41,4 +41,15 @@ for name <- list do
 end
 
 Process.exit(Process.whereis(:john), :kill)
+```
+
+Intruction how to run ExamplePartitionupervisor (no Bottleneck)
+
+``` elixir
+alias Sup.ExamplePartitionupervisor
+list = ["john", "alex", "peter"]
+for name <- list do
+  # The DynamicSupervisor starts a worker that sleeps for 5 seconds
+  spawn(fn -> ExamplePartitionupervisor.start_child_server(name) end)
+end
 ```
