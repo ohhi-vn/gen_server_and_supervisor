@@ -2,19 +2,21 @@ defmodule Sup.ExampleGenserver do
   use GenServer
 
   def start_link(arg) do
-    IO.puts("ExampleGenserver start")
-    GenServer.start_link(__MODULE__, arg, name: :example_gen_server)
+    %{name: name} = arg
+    GenServer.start_link(__MODULE__, arg, name: String.to_atom(name))
   end
 
+  @impl true
   def init(state) do
-    IO.puts("timer sleep 5 seconds! ")
+    IO.puts("timer sleep 5 seconds when initializing! ")
     :timer.sleep(5000)
     send(self(), :finish)
     {:ok, state}
   end
 
+  @impl true
   def handle_info(:finish, %{name: name} = state) do
-    IO.puts("Hello from #{self()}, #{name}")
+    IO.puts("Hello from #{inspect(self())}, #{name}")
     {:noreply, state}
   end
 

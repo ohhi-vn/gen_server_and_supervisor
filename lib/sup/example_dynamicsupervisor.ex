@@ -11,8 +11,8 @@ defmodule Sup.ExampleDynamicSupervisor do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  def start_greeter(name) do
-    spec = %{id: Worker,
+  def start_child_server(name) do
+    spec = %{id: ExampleGenserver,
              start: {ExampleGenserver, :start_link, [%{name: name}]}}
     DynamicSupervisor.start_child(__MODULE__, spec)
   end

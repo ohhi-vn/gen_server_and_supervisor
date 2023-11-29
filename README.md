@@ -30,3 +30,15 @@ Mix.ensure_application!(:observer)
 {:ok, pid1} = DynamicSupervisor.start_child(Counter, Sup.Counter)
 Process.exit(pid, :kill)
 ```
+
+Intruction how to run ExampleDynamicSupervisor
+```
+alias Sup.ExampleDynamicSupervisor
+list = ["john", "alex", "peter"]
+for name <- list do
+  # The DynamicSupervisor starts a worker that sleeps for 5 seconds
+  spawn(fn -> ExampleDynamicSupervisor.start_child_server(name) end)
+end
+
+Process.exit(Process.whereis(:john), :kill)
+```

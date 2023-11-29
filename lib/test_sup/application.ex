@@ -9,7 +9,7 @@ defmodule TestSup.Application do
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: TestSup.Worker.start_link(arg)
-      {Sup.ExampleGenserver, name: ExampleGenserver},
+      {Sup.ExampleDynamicSupervisor, name: ExampleDynamicSupervisor},
       {DynamicSupervisor, name: Counter, strategy: :one_for_one}
     ]
 
